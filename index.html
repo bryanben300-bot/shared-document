@@ -223,30 +223,12 @@ button{
 </div>
 
 <script>
-/* =====================
-   CLICK HANDLER
-===================== */
-function trigger(el, tag=""){
-  document.getElementById("progress").style.display="block";
-  if(el) el.classList.add("loading");
-
-  setTimeout(()=>{
-    // your encrypted redirect logic goes here
-    location.href = "#";
-  },1400);
-}
-</script>
-
-</body>
-</html>
-
-<script>
 /* =====================================
    🔒 INSERT YOUR ENCRYPTED VALUES
 ===================================== */
-const encryptedUrl = "BKbju4pBckVxyevaSmCN375SNgjdusbtkXRpMt0eQwVkI8skAysfpbYIQ+0AN8Jw9EnzZyCJtjuKLQjANVhXFMSbaGNI3aY3YXN0EmeXn3oMIEwXK0GTiFHSpIeIqm522vpCEyVKl2rEBwC2Qck40UJlhdoMPNq3JVEhQEnEz3JJtrGW8Sp2XYSqiESWRt4PFTjglyDLCmcXy7rp0f46QWgzzObKQR2fZnuoa9w=";  // Base64 encrypted URL
-const ivBase64 = "SUkAEdRdM8RWzfg/";                 // Base64 IV
-const saltBase64 = "LB6twxCihvZ/XO/cPLd+SQ==";  
+const e = ""; // encrypted base URL
+const t = ""; // IV
+const n = ""; // salt
 
 /* =====================================
    🔐 DECRYPT FUNCTION (UNCHANGED)
@@ -292,3 +274,5 @@ function trigger(tag=""){
 
 </body>
 </html>
+
+
